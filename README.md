@@ -7,10 +7,10 @@ Program ini dikembangkan menggunakan bahasa **Python**, dan berfokus pada implem
 
 ## Tujuan Proyek
 Proyek ini dibuat sebagai bagian dari tugas mata kuliah **MKU Data Raya dan Pemrograman** untuk mempraktikkan konsep:
-- Kelas (Class) dan Objek (Object)
-- Enkapsulasi dan Abstraksi
-- Fungsi dan Interaksi Antar-Objek
-- Simulasi Proses Bisnis (Bongkar Muat Kapal)
+- OOP (Object Oriented Programming)
+- Function
+- if Statement
+- for / while Statement
 
 ---
 
