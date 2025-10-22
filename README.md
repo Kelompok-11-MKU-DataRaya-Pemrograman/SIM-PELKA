@@ -33,7 +33,7 @@ Proyek ini dibuat sebagai bagian dari tugas mata kuliah **Pemrograman Dasar** un
 ---
 
 ## Cara Menjalankan Program
-1. Pastikan sudah menginstal **Python 3.x**.
+1. Pastikan sudah menginstal **Python 3.8–3.12** (direkomendasikan **Python 3.11**).
 2. Clone repositori ini:
    ```bash
    git clone https://github.com/Kelompok-11-MKU-DataRaya-Pemrograman/SIM-PELKA.git
