@@ -2,7 +2,6 @@
 # Kontributor: Rizki Agustian, Fatiha Alyssa, Radithya Alfitoba
 
 import csv
-import os
 from datetime import datetime
 import sqlite3
 
@@ -39,18 +38,20 @@ class Kapal:
 
 
 def import_data_csv(nama_file):
-    daftar_kapal = []
-    if not os.path.exists(nama_file):
-        print(f"File '{nama_file}' tidak ditemukan.")
-        return daftar_kapal
-
-    with open(nama_file, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            kapal = Kapal(row['nama'], row['jenis'], int(row['tonase']))
-            daftar_kapal.append(kapal)
-    print(f"Data berhasil diimpor dari '{nama_file}'.")
-    return daftar_kapal
+    try:
+        with open(nama_file, mode='r', newline='', encoding='utf-8') as file:
+            # deteksi otomatis delimiter (koma atau titik koma)
+            dialect = csv.Sniffer().sniff(file.read(1024))
+            file.seek(0)
+            reader = csv.DictReader(file, dialect=dialect)
+            data = []
+            for row in reader:
+                kapal = Kapal(row['nama'], row['jenis'], int(row['tonase']))
+                data.append(kapal)
+            return data
+    except FileNotFoundError:
+        print(f"File {nama_file} tidak ditemukan.")
+        return []
 
 
 def export_data_csv(nama_file, daftar_kapal):
