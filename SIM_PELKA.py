@@ -1,6 +1,8 @@
-# Rizki Agustian
-
 # SIM-PELKA: Simulasi Manajemen Pelayanan Kapal di Pelabuhan
+# Kontributor: Rizki Agustian, Fatiha Alyssa, Radithya Alfitoba
+
+import csv
+import os
 
 class Kapal:
     def __init__(self, nama, jenis, tonase):
@@ -16,8 +18,6 @@ class Kapal:
             print(f"{self.nama} telah bersandar di dermaga.")
         else:
             print(f"{self.nama} tidak dapat bersandar. Status saat ini: {self.status}")
-
-# Fatiha Alyssa
 
     def bongkar_muat(self, volume):
         if self.status == "Bersandar":
@@ -35,13 +35,44 @@ class Kapal:
         else:
             print(f"{self.nama} tidak dapat menyelesaikan layanan. Status saat ini: {self.status}")
 
-# Radithya Alfitoba
+
+def import_data_csv(nama_file):
+    daftar_kapal = []
+    if not os.path.exists(nama_file):
+        print(f"File '{nama_file}' tidak ditemukan.")
+        return daftar_kapal
+
+    with open(nama_file, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            kapal = Kapal(row['nama'], row['jenis'], int(row['tonase']))
+            daftar_kapal.append(kapal)
+    print(f"Data berhasil diimpor dari '{nama_file}'.")
+    return daftar_kapal
+
+
+def export_data_csv(nama_file, daftar_kapal):
+    with open(nama_file, mode='w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['nama', 'jenis', 'tonase', 'status', 'muatan']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for kapal in daftar_kapal:
+            writer.writerow({
+                'nama': kapal.nama,
+                'jenis': kapal.jenis,
+                'tonase': kapal.tonase,
+                'status': kapal.status,
+                'muatan': kapal.muatan
+            })
+    print(f"Data hasil simulasi telah diekspor ke '{nama_file}'.")
+
 
 def tampilkan_daftar_kapal(daftar_kapal):
     print("\nDaftar Kapal di Pelabuhan:")
     for i, kapal in enumerate(daftar_kapal, 1):
         print(f"{i}. {kapal.nama} | Jenis: {kapal.jenis} | Tonase: {kapal.tonase} ton | "
               f"Status: {kapal.status} | Muatan: {kapal.muatan} ton")
+
 
 def simulasikan_bongkar_muat(daftar_kapal):
     shift = 1
@@ -51,19 +82,38 @@ def simulasikan_bongkar_muat(daftar_kapal):
             if kapal.status == "Antri":
                 kapal.bersandar()
             elif kapal.status == "Bersandar":
-                volume = int(input(f"Masukkan volume bongkar/muat untuk {kapal.nama}: "))
-                kapal.bongkar_muat(volume)
-                kapal.selesai_layanan()
+                try:
+                    volume = int(input(f"Masukkan volume bongkar/muat untuk {kapal.nama}: "))
+                    kapal.bongkar_muat(volume)
+                    kapal.selesai_layanan()
+                except ValueError:
+                    print("Input tidak valid, gunakan angka.")
         tampilkan_daftar_kapal(daftar_kapal)
         shift += 1
 
+
 if __name__ == "__main__":
-    daftar_kapal = [
-        Kapal("Meratus Jaya", "Kargo", 5000),
-        Kapal("Samudra Indah", "Kargo", 8000),
-        Kapal("Nusantara", "Kargo", 3000)
-    ]
+    print("=== SIM-PELKA: Simulasi Manajemen Pelayanan Kapal ===")
+
+    # Input nama file CSV
+    nama_file_input = input("Masukkan nama file CSV input (misal: kapal_data.csv): ")
+
+    daftar_kapal = import_data_csv(nama_file_input)
+
+    # Jika CSV kosong atau tidak ditemukan, gunakan data dummy
+    if not daftar_kapal:
+        print("Menggunakan data default karena file CSV kosong atau tidak ditemukan.\n")
+        daftar_kapal = [
+            Kapal("Meratus Jaya", "Kargo", 5000),
+            Kapal("Samudra Indah", "Kargo", 8000),
+            Kapal("Nusantara", "Kargo", 3000)
+        ]
 
     tampilkan_daftar_kapal(daftar_kapal)
     simulasikan_bongkar_muat(daftar_kapal)
+
+    # Export hasil simulasi
+    nama_file_output = input("\nMasukkan nama file output CSV (misal: hasil_simulasi.csv): ")
+    export_data_csv(nama_file_output, daftar_kapal)
+
     print("\nSimulasi selesai. Terima kasih telah menggunakan SIM-PELKA.\n")
