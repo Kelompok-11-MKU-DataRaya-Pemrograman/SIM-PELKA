@@ -30,6 +30,12 @@ Proyek ini dibuat sebagai bagian dari tugas mata kuliah **MKU Data Raya dan Pemr
 5. **Simulasi Aktivitas Pelabuhan**  
    Pengguna dapat mensimulasikan aktivitas pelabuhan secara interaktif melalui antarmuka berbasis teks.
 
+6. **Penyimpanan Data ke Database (SQLite3)**  
+   Setelah simulasi selesai, seluruh data kapal otomatis disimpan ke database lokal `sim_pelka.db` menggunakan SQLite3.
+
+7. **Ekspor Data Otomatis dengan Timestamp**  
+   Hasil simulasi akan diekspor otomatis ke file CSV dengan format nama:
+
 ---
 
 ## Cara Menjalankan Program
@@ -37,3 +43,12 @@ Proyek ini dibuat sebagai bagian dari tugas mata kuliah **MKU Data Raya dan Pemr
 2. Clone repositori ini:
    ```bash
    git clone https://github.com/Kelompok-11-MKU-DataRaya-Pemrograman/SIM-PELKA.git
+3. Jalankan program:
+   ```bash
+   python SIM_PELKA.py
+
+---
+
+## Catatan
+- File `sim_pelka.db` akan otomatis dibuat di direktori kerja setelah program dijalankan.
+- Setiap hasil simulasi disimpan secara unik berdasarkan timestamp agar tidak menimpa file sebelumnya.
