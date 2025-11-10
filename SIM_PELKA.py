@@ -3,6 +3,8 @@
 
 import csv
 import os
+from datetime import datetime
+import sqlite3
 
 class Kapal:
     def __init__(self, nama, jenis, tonase):
@@ -91,9 +93,45 @@ def simulasikan_bongkar_muat(daftar_kapal):
         tampilkan_daftar_kapal(daftar_kapal)
         shift += 1
 
+def setup_database():
+    conn = sqlite3.connect('sim_pelka.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS kapal (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT,
+            jenis TEXT,
+            tonase INTEGER,
+            status TEXT,
+            muatan INTEGER
+        )
+    ''')
+    conn.commit()
+    conn.close()
+    print("Database 'sim_pelka.db' siap digunakan.")
+
+def simpan_ke_database(daftar_kapal):
+    conn = sqlite3.connect('sim_pelka.db')
+    cursor = conn.cursor()
+
+    # Kosongkan tabel biar gak dobel
+    cursor.execute("DELETE FROM kapal")
+
+    for kapal in daftar_kapal:
+        cursor.execute('''
+            INSERT INTO kapal (nama, jenis, tonase, status, muatan)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (kapal.nama, kapal.jenis, kapal.tonase, kapal.status, kapal.muatan))
+
+    conn.commit()
+    conn.close()
+    print("Data berhasil disimpan ke database 'sim_pelka.db'.")
+
 
 if __name__ == "__main__":
     print("=== SIM-PELKA: Simulasi Manajemen Pelayanan Kapal ===")
+
+    setup_database()
 
     # Input nama file CSV
     nama_file_input = input("Masukkan nama file CSV input (misal: kapal_data.csv): ")
@@ -112,8 +150,13 @@ if __name__ == "__main__":
     tampilkan_daftar_kapal(daftar_kapal)
     simulasikan_bongkar_muat(daftar_kapal)
 
-    # Export hasil simulasi
-    nama_file_output = input("\nMasukkan nama file output CSV (misal: hasil_simulasi.csv): ")
+
+    # Tambahkan timestamp otomatis ke nama file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    nama_file_output = f"hasil_simulasi_{timestamp}.csv"
+
     export_data_csv(nama_file_output, daftar_kapal)
+
+    simpan_ke_database(daftar_kapal)
 
     print("\nSimulasi selesai. Terima kasih telah menggunakan SIM-PELKA.\n")
