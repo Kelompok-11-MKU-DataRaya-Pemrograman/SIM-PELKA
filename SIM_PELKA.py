@@ -3,6 +3,7 @@
 
 import csv
 import os
+from datetime import datetime
 
 class Kapal:
     def __init__(self, nama, jenis, tonase):
@@ -112,8 +113,11 @@ if __name__ == "__main__":
     tampilkan_daftar_kapal(daftar_kapal)
     simulasikan_bongkar_muat(daftar_kapal)
 
-    # Export hasil simulasi
-    nama_file_output = input("\nMasukkan nama file output CSV (misal: hasil_simulasi.csv): ")
+
+    # Tambahkan timestamp otomatis ke nama file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    nama_file_output = f"hasil_simulasi_{timestamp}.csv"
+
     export_data_csv(nama_file_output, daftar_kapal)
 
     print("\nSimulasi selesai. Terima kasih telah menggunakan SIM-PELKA.\n")
