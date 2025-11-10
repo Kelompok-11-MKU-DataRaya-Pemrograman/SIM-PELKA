@@ -40,7 +40,6 @@ class Kapal:
 def import_data_csv(nama_file):
     try:
         with open(nama_file, mode='r', newline='', encoding='utf-8') as file:
-            # deteksi otomatis delimiter (koma atau titik koma)
             dialect = csv.Sniffer().sniff(file.read(1024))
             file.seek(0)
             reader = csv.DictReader(file, dialect=dialect)
@@ -114,8 +113,6 @@ def setup_database():
 def simpan_ke_database(daftar_kapal):
     conn = sqlite3.connect('sim_pelka.db')
     cursor = conn.cursor()
-
-    # Kosongkan tabel biar gak dobel
     cursor.execute("DELETE FROM kapal")
 
     for kapal in daftar_kapal:
@@ -134,12 +131,10 @@ if __name__ == "__main__":
 
     setup_database()
 
-    # Input nama file CSV
     nama_file_input = input("Masukkan nama file CSV input (misal: kapal_data.csv): ")
 
     daftar_kapal = import_data_csv(nama_file_input)
 
-    # Jika CSV kosong atau tidak ditemukan, gunakan data dummy
     if not daftar_kapal:
         print("Menggunakan data default karena file CSV kosong atau tidak ditemukan.\n")
         daftar_kapal = [
@@ -149,10 +144,9 @@ if __name__ == "__main__":
         ]
 
     tampilkan_daftar_kapal(daftar_kapal)
+
     simulasikan_bongkar_muat(daftar_kapal)
 
-
-    # Tambahkan timestamp otomatis ke nama file
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     nama_file_output = f"hasil_simulasi_{timestamp}.csv"
 
