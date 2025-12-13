@@ -1,4 +1,7 @@
 nama;jenis;tonase
-Meratus Jaya;Kargo;5000
-Samudra Indah;Kargo;8000
-Nusantara;Kargo;3000
+Meratus;Kargo;5000
+Samudra;Penumpang;3000
+Nusantara;Tanker;8000
+Tanjung Permai;Penumpang;2000
+Sinar Laut;Tanker;7000
+Baruna;Ro-Ro;4000
