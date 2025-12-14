@@ -1,0 +1,7 @@
+=== HASIL ANALISIS 1 (Total Tonase per Jenis) ===
+2025-12-14 14:49:18,179 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Antri   22659
+Bersandar       22515
+Selesai 22774
+
+Selesai.
