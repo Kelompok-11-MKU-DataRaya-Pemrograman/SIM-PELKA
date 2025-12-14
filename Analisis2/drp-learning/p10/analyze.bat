@@ -1,7 +1,7 @@
 @REM #!/bin/
 @echo off
 
-echo === MEMULAI ANALISIS 1 (Total Tonase per Jenis) ===
+echo === MEMULAI ANALISIS 2 (Jumlah Kapal per Status) ===
 
 @REM 0. Buat folder /data di dalam container namenode terlebih dahulu
 echo [1/6] Membuat direktori di container...
@@ -37,9 +37,10 @@ docker-compose exec namenode hadoop jar /data/hadoop-streaming.jar ^
 
 @REM 6. Lihat Hasil
 echo.
-echo === HASIL ANALISIS 1 (Total Tonase per Jenis) ===
+echo === HASIL ANALISIS 2 (Jumlah Kapal per Status) ===
 docker-compose exec namenode hdfs dfs -cat /user/student/output_analisis1/part-00000
 
 echo.
 echo Selesai.
 pause
+
